@@ -4,7 +4,7 @@
 
 # Site
 title: Hexo
-subtitle:
+subtitle: 我的博客
 description:
 keywords:
 author: John Doe
@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://yinlongfei.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
