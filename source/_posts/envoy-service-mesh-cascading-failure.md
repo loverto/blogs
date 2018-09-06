@@ -1,3 +1,7 @@
+---
+title: 使用 Kubernetes 和 Istio 进行基于容器的全面服务监控
+---
+
 # Envoy 服务网格案例研究：减轻 Lyft 的级联故障
 
 > 原文链接：https://www.infoq.com/articles/envoy-service-mesh-cascading-failure

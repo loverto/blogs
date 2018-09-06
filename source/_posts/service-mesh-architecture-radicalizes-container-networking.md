@@ -1,3 +1,7 @@
+---
+title: 服务网状结构激化了容器网络
+---
+
 # 服务网状结构激化了容器网络
 
 > 原文链接：https://searchitoperations.techtarget.com/feature/Service-mesh-architecture-radicalizes-container-networking

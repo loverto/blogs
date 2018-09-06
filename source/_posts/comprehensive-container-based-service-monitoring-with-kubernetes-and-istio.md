@@ -1,3 +1,7 @@
+---
+title: 使用 Kubernetes 和 Istio 进行基于容器的全面服务监控
+---
+
 # 使用 Kubernetes 和 Istio 进行基于容器的全面服务监控
 
 > 原文链接：https://www.circonus.com/2018/06/comprehensive-container-based-service-monitoring-with-kubernetes-and-istio/

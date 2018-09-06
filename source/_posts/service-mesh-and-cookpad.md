@@ -1,3 +1,8 @@
+---
+title: 服务网格和Cookpad
+---
+
+
 # [服务网格和Cookpad]()
 
 这个原文是 5 月初发表的[原文](http://techlife.cookpad.com/entry/2018/05/08/080000)的翻译。补充一下这篇文章的背景，Cookpad 是一家拥有 200 多种产品开发的中型科技公司，拥有 10 多支团队，每月平均用户数量达到 9000 万。[https://www.cookpadteam.com/](https://www.cookpadteam.com/)
