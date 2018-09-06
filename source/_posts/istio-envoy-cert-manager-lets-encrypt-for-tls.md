@@ -2,8 +2,6 @@
 title: 利用Let's Encrypt 为Istio（Envoy）添加TLS 支持
 ---
 
-# 利用Let's Encrypt 为Istio（Envoy）添加TLS 支持
-
 > 原文链接：https://medium.com/@prune998/istio-envoy-cert-manager-lets-encrypt-for-tls-14b6a098f289
 >
 > 作者：Prune   

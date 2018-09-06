@@ -2,9 +2,6 @@
 title: 使用 Fn Project 和 Istio 的 Function 之间的通信路由
 ---
 
-
-# 使用 Fn Project 和 Istio 的 Function 之间的通信路由
-
 > 原文链接：https://hackernoon.com/traffic-routing-between-fn-functions-using-fn-project-and-istio-fd56607913b8
 >
 > 作者：[Peter Jausovec](https://hackernoon.com/@pjausovec?source=post_header_lockup)

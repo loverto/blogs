@@ -2,8 +2,6 @@
 title: 后 Kubernetes 时代的微服务
 ---
 
-# 后 Kubernetes 时代的微服务
-
 > 原文链接：https://www.infoq.com/articles/microservices-post-kubernetes
 >
 > 作者：[Bilgin Ibryam](https://www.infoq.com/profile/Bilgin-Ibryam)

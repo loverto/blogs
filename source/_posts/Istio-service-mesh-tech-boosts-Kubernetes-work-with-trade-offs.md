@@ -2,8 +2,6 @@
 title: 衡取 Istio 服务网格基于 Kubernetes 工作的优缺点
 ---
 
-# 衡取 Istio 服务网格基于 Kubernetes 工作的优缺点
-
 > 原文链接：https://searchitoperations.techtarget.com/tip/Istio-service-mesh-tech-boosts-Kubernetes-work-with-trade-offs
 >
 > 作者：[[Alan R. Earls](https://www.techtarget.com/contributor/Alan-R-Earls)
