@@ -10,12 +10,13 @@ install:
 # - npm install -g gulp
 
 script:
+- git clone "https://${blog_token}@${GH_REF}" public
 - hexo g
 
 after_script:
 - cd ./public
 - cp ../CNAME ./
-- git init
+#- git init
 - git config user.name "yinlongfei"
 - git config user.email "1045438139@qq.com"
 - git add .
