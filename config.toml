@@ -1,0 +1,33 @@
+baseURL = "http://yinlongfei.com/"
+languageCode = "zh"
+title = "殷龙飞的博客"
+theme = "beautifulhugo"
+
+googleAnalytics = "UA-125320928-1"
+
+[author]
+    name = "殷龙飞"
+
+[params]
+    author = "殷龙飞"
+    subtitle = "专注于云原生、微服务、服务网格、Java、 Android、 Nodejs、 go语言、移动互联网、项目管理、软件架构"
+    keywords = "golang,kubernetes,docker,mesos,java,springcloud,软件架构，殷龙飞，博客，小程序"
+    description = "专注于IT互联网，包括但不限于云原生、Go语言(golang)、Java、Android、Python、项目管理、抖音分析、软件架构等"
+    baiduKey = "c940f59912709b87147df52a73cf50b5"
+
+[menu]
+  [[menu.main]]
+    identifier = "books"
+    name = "新书"
+    url = "/books/"
+    weight = 2
+  [[menu.main]]
+    identifier = "archives"
+    name = "归档"
+    url = "/archives/"
+    weight = 3
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = 4
