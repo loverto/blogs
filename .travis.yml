@@ -8,7 +8,7 @@ install:
 
 before_script:
 # "Step 2 - cleaning website publish folder 'docs'. Keeping media intact.
-- find docs -mindepth 1 -maxdepth 1 ! -name media -exec rm -rf {} \;
+- find docs -mindepth 1 -maxdepth 1 ! -name media -exec rm -rf {} \
 # "Step 3 - building the hugo site"
 - hugo version
 - hugo

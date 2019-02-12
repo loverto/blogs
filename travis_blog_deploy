@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#
+# Find the latest script on https://github.com/lobopraveen/praveenlobo.com
+#
+
+# Function to git add all commit push (gaacp). Up to two parameters are accepted for commit message
+gaacp() {
+  echo "Updating local repo with latest files..."
+  git add -A
+  git commit -m "$1. $2"
+
+  if [[ $? -ne 0 ]]; then
+    echo "ERROR: Local repo commit failed."
+    exit 1
+  fi
+
+  echo "Pushing the updated repo to GitHub..."
+  git push origin master
+
+  if [[ $? -ne 0 ]]; then
+    echo "ERROR: git push failed."
+    exit 1
+  fi
+}
+# End Function
+
+if [ $# -ne 1 ]; then
+  echo -e "ERROR: Missing parameter. \nUsage: $0 \"commit message\""
+  exit 1
+fi
+
+echo "Pulling latest repo from GitHub..."
+git pull origin master
+
+if [[ $? -ne 0 ]]; then
+  echo "ERROR: Repo pull failed."
+  exit 1
+fi
+
+read -p "Do you want to build the site locally? y/n: " localbuild
+
+if [[ $localbuild = "y" || $localbuild = "Y" ]]; then
+  echo "Local build selected."
+  echo "Present working directory: " `pwd`
+
+  echo "Cleaning up publish directory..."
+  find docs -mindepth 1 -maxdepth 1 ! -name media -exec rm -rf {} \;
+
+  echo "Hugo version: " `hugo version`
+  echo "Building Hugo site locally..."
+  hugo
+
+  if [[ $? -ne 0 ]]; then
+    echo "ERROR: Site build failed."
+    exit 1
+  fi
+
+  gaacp "$1" "[skip ci]"
+
+elif [[ $localbuild = "n" || $localbuild = "N" ]]; then
+  echo "Remote build selected."
+  gaacp "$1"
+  echo "Please remember to pull the latest from the remote repo once the remote build deploys the site."
+
+else
+  echo "ERROR: Incorrect input supplied."
+  exit 1
+fi
