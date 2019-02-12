@@ -1,28 +1,46 @@
-language: node_js
-node_js: stable
+language: go
+
 
 # S: Build Lifecycle
 install:
-- npm install
+- go get github.com/gohugoio/hugo
 
 
-#before_script:
-# - npm install -g gulp
+before_script:
+# "Step 2 - cleaning website publish folder 'docs'. Keeping media intact.
+- find docs -mindepth 1 -maxdepth 1 ! -name media -exec rm -rf {} \;
+# "Step 3 - building the hugo site"
+- hugo version
+- hugo
+# "Step 4 - decrypting the deploy key"
+- openssl aes-256-cbc -K $encrypted_a781b6369385_key -iv $encrypted_a781b6369385_iv -in travis_blog_deploy.enc -out travis_blog_deploy -d
+- chmod 600 travis_blog_deploy
+# "Step 5 - adding the deploy key to the keyring"
+- eval `ssh-agent -s`
+- ssh-add travis_blog_deploy
+- rm -f travis_blog_deploy
+# "Step 6 - setting up git parameters"
+- git config --global user.email "1045438139@qq.com"
+- git config --global user.name "yinlongfei"
+# "Step 7 - commit the changes to the branch - $TRAVIS_BRANCH"
+- git status
+- git stash
+- git checkout $TRAVIS_BRANCH
+- git stash pop
+- git add -A
+- git commit -m "Travis deploy for $TRAVIS_COMMIT. [skip ci]"
+# "Step 8 - push the changes to github"
+- push --force --quiet "https://${blog_token}@${GH_REF}" master:master
+# "Successfully built and deployed the site!"
 
 script:
-#- git clone "https://${blog_token}@${GH_REF}" public
-- hexo g
+# Travis is failing for no reason. Just having this stage will prevent it from failing.
+- echo "Bye!"
 
-after_script:
-- cd ./public
-- cp ../CNAME ./
-- git init
-- git config user.name "yinlongfei"
-- git config user.email "1045438139@qq.com"
-- git add .
-- git commit -m "Update docs"
-- git push --force --quiet "https://${blog_token}@${GH_REF}" master:master
-# E: Build LifeCycle
+notifications:
+  email:
+    on_success: change
+    on_failure: always
 
 branches:
   only:
