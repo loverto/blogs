@@ -1,4 +1,5 @@
 ---
+date: "2018-06-26T20:18:57+08:00"
 title: 使用 Fn Project 和 Istio 的 Function 之间的通信路由
 ---
 
