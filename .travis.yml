@@ -9,7 +9,7 @@ install:
 
 script:
   - git clone "https://${blog_token}@${GH_REF}" public
-  - hugo --version
+  - hugo version
   - hugo
 
 after_script:
