@@ -1,3 +1,7 @@
+---
+date: "2016-07-25T20:18:57+08:00"
+title: SpringBootServletInitializer如何实现web.xml解析
+---
 # SpringBootServletInitializer
 
 1. 源码分析如何实现SpringBootServletInitializer整个加载过程
