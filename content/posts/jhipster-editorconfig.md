@@ -4,7 +4,7 @@ title: Jhipster 项目之架构分析之EditorConfig
 ---
 
 项目开发时，随着人员的增多，需要大家规范开发中的代码格式，虽然各个开发工具都有格式代码的工具，但是人员不同个人喜好的开发工具也不同，为了遵循大家自由的选择开发工具，而又可以满足维护一致的编码样式，该如何处理呢，
-EditorConfig刚好就是为这种场景而生的工具
+[EditorConfig](https://github.com/editorconfig/editorconfig)刚好就是为这种场景而生的工具
 
 ## .editorconfig
 
