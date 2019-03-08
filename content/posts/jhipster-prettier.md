@@ -8,7 +8,7 @@ title: Jhipster 项目之架构分析之perttier
 
 ## .prettierrc
 
-```
+```yaml
 # Prettier configuration
 
 # 每行行宽
