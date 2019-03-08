@@ -21,7 +21,7 @@ title: Jhipster 项目之架构分析之gitignore
 
 上面的条目就是git的格式
 
-```
+```gitconfig
 ######################
 # Project Specific
 ######################
