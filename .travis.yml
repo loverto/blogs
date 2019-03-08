@@ -8,8 +8,8 @@ install:
 
 
 script:
-  - git clone https://github.com/rootsongjc/beautifulhugo.git themes/beautifulhugo
   - git clone "https://${blog_token}@${GH_REF}" public
+  - rm -rf !(.git)
   - hugo version
   - hugo
 
