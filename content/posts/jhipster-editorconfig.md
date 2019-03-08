@@ -8,7 +8,7 @@ title: Jhipster 项目之架构分析之EditorConfig
 
 ## .editorconfig
 
-```
+```toml
 # EditorConfig helps developers define and maintain consistent
 # coding styles between different editors and IDEs
 # editorconfig.org
