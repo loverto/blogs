@@ -1,9 +1,9 @@
 ---
 author: "Mete Atamel"
-translator: "loverto"	translator: "loverto"
-title: "上手Knative的 - 第1部分"	title: "上手Knative的 - 第1部分"
-description: "上手Knative的 - 第1部分"	description: "上手Knative的 - 第1部分"
-categories: "translation"	categories: "translation"
+translator: "loverto"
+title: "上手Knative的 - 第1部分"
+description: "上手Knative的 - 第1部分"
+categories: "translation"
 tags: ["Knative","kubernetes"]
 date: "2019-03-04T20:18:57+08:00"
 ---
@@ -132,7 +132,7 @@ Knative Serving非常适合与其他服务整合。例如，您可以将Knative�
 
 与我的Knative Tutorial的 [Twilio](https://github.com/meteatamel/knative-tutorial/blob/master/docs/05-twiliointegration.md) 部分集成有 细的步骤，但它基本上归结为创建处理Twilio消息的代码：
 
-```
+```Java
 [Route("[controller]")]
 public class SmsController : TwilioController
 {
