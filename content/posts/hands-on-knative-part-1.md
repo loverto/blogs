@@ -1,5 +1,10 @@
 ---
-title: "上手Knative的 - 第1部分"
+author: "Mete Atamel"
+translator: "loverto"	translator: "loverto"
+title: "上手Knative的 - 第1部分"	title: "上手Knative的 - 第1部分"
+description: "上手Knative的 - 第1部分"	description: "上手Knative的 - 第1部分"
+categories: "translation"	categories: "translation"
+tags: ["Knative","kubernetes"]
 date: "2019-03-04T20:18:57+08:00"
 ---
 
