@@ -5,7 +5,7 @@ title: Jhipster 项目之架构分析之yo-rc.json
 
 jhipster generator这个工具本身使用[yeoman](https://github.com/yeoman/yo)开发的，那么yo他的开发工具生成代码，jhipster利用这个配置文件来保存生成项目时的一些配置，比如项目名称，用的什么组件之类的
 
-```
+```json
 {
     "generator-jhipster": {
         "applicationType": "monolith",
