@@ -6,7 +6,7 @@ title: Jhipster 项目之架构分析之gitattributes
 在开发一个web项目时，如果用git管理一个项目，项目中有几十中格式的文件时，git能否正常的处理这些文件呢？比如图片这种二进制，比如window平台下的bat文件在git仓库上是否应该是一样的，比如jar包这种文件，等等，像这种繁多的文件有时候并不是git默认配置情况下可以处理的非常优秀的，那么下面可以用[git的属性](https://git-scm.com/book/zh/v1/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git%E5%B1%9E%E6%80%A7),
 的配置，让git了解这些文件具体该如何处理，并且配置什么类型的文件应该是什么格式，什么结尾，这个文件定义了常见的文件格式
 
-```
+```txt
 # This file is inspired by https://github.com/alexkaratarakis/gitattributes
 #
 # Auto detect text files and perform LF normalization
