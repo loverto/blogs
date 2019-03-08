@@ -1,4 +1,4 @@
-baseURL = "http://yinlongfei.com/"
+baseURL = "https://yinlongfei.com/"
 languageCode = "zh"
 title = "殷龙飞的博客"
 theme = "beautifulhugo"
