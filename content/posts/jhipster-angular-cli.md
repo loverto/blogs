@@ -5,7 +5,7 @@ title: Jhipster 项目之架构分析之angular.json
 
 由于我选择的项目前端开发框架用的angular，那么jhipster前端angular利用到了官方的[angular-cli](https://github.com/angular/angular-cli)来解决问题，
 
-```
+```json
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
