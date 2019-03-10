@@ -103,7 +103,7 @@ API只能与其文档一样好。文档应该易于查找和公开访问。大�
 
 ## 版本
 
-始终为您的API版本。版本控制可帮助您更快地进行迭代，并防止无效请求命中更新的端点。它还有助于平滑任何主要的API版本转换，因为您可以继续提供一段时间的旧API版本。
+始终为您的API提供版本。版本控制可帮助您更快地进行迭代，并防止无效请求命中更新的端点。它还有助于平滑任何主要的API版本转换，因为您可以继续提供一段时间的旧API版本。
 
 关于 [API版本是应该包含在URL还是标题中，](http://stackoverflow.com/questions/389169/best-practices-for-api-versioning) 有不一致的看法。从学术上讲，它可能应该在标题中。但是，版本需要在URL中以确保浏览器跨版本的资源可用性（请记住本文顶部指定的API要求？）。
 
@@ -115,24 +115,24 @@ API永远不会完全稳定。变化是不可避免的。重要的是如何管�
 
 最好保持基本资源URL尽可能精简。复杂的结果过滤器，排序要求和高级搜索（当限制为单一类型的资源时）都可以轻松实现为基本URL之上的查询参数。让我们更详细地看一下这些：
 
-**过滤** ：对实现过滤的每个字段使用唯一查询参数。例如，从 / tickets 端点 请求票证列表时 ，您可能希望将这些仅限于处于打开状态 的票证列表。这可以通过 GET / ticket？state = open 等请求来完成。这里，state 是一个实现过滤器的查询参数。
+**过滤** ：对实现过滤的每个字段使用唯一查询参数。例如，从 /tickets 端点 请求票证列表时 ，您可能希望将这些仅限于处于打开状态 的票证列表。这可以通过 GET /ticket?state=open 等请求来完成。这里，state 是一个实现过滤器的查询参数。
 
 **排序** ：与过滤类似，通用参数 排序 可用于描述排序规则。通过让sort参数包含逗号分隔字段列表来容纳复杂的排序要求，每个字段都有一个可能的一元否定以暗示降序排序。我们来看一些例子：
 
-* GET / ticket？sort = \-priority \- 按优先级降序检索故障单列表
-* GET / tickets？sort = \-priority，created\_at \- 按优先级降序检索故障单列表。在特定优先级内，首先订购旧票
+* GET `/ticket?sort=-priority` \- 按优先级降序检索故障单列表
+* GET `/tickets?sort=-priority,created_at` \- 按优先级降序检索故障单列表。在特定优先级内，首先订购旧票
 
-**搜索** ：有时基本的过滤器是不够的，你需要全文搜索的力量。也许您已经在使用 [ElasticSearch](http://www.elasticsearch.org) 或其他 基于 [Lucene](http://lucene.apache.org) 的搜索技术。当全文搜索用作检索特定类型资源的资源实例的机制时，它可以作为资源端点上的查询参数在API上公开。我们说 q。搜索查询应直接传递给搜索引擎，API输出的格式应与普通列表结果相同。
+**搜索** ：有时基本的过滤器是不够的，你需要全文搜索的力量。也许您已经在使用 [ElasticSearch](http://www.elasticsearch.org) 或其他基于 [Lucene](http://lucene.apache.org) 的搜索技术。当全文搜索用作检索特定类型资源的资源实例的机制时，它可以作为资源端点上的查询参数在API上公开。我们说 q。搜索查询应直接传递给搜索引擎，API输出的格式应与普通列表结果相同。
 
 将这些组合在一起，我们可以构建如下查询：
 
-* GET / ticket？sort = \-updated\_at \- 检索最近更新的票证
-* GET / ticket？state = closed＆sort = \-updated\_at \- 检索最近关闭的票证
-* GET / ticket？q = return＆state = open＆sort = \-priority，created\_at \- 检索提到“return”一词的最高优先级开放票
+* GET `/tickets?sort=-updated_at` \- 检索最近更新的票证
+* GET `/tickets?state=closed&sort=-updated_at` \- 检索最近关闭的票证
+* GET `/tickets?q=return&state=open&sort=-priority,created_at` \- 检索提到“return”一词的最高优先级开放票
 
 **常见查询的别名**
 
-为了使普通消费者的API体验更加愉快，可以考虑将一组条件打包成易于访问的RESTful路径。例如，上面最近关闭的票证查询可以打包为 GET / tickets / recent\_closed
+为了使普通消费者的API体验更加愉快，可以考虑将一组条件打包成易于访问的RESTful路径。例如，上面最近关闭的票证查询可以打包为 GET `/tickets/recently_closed`
 
 ## 限制API返回哪些字段
 
@@ -140,13 +140,13 @@ API使用者并不总是需要资源的完整表示。选择和选择返回字�
 
 使用 字段 查询参数，该参数采用逗号分隔的字段列表来包含。例如，以下请求将检索足够的信息以显示打开的票证的已排序列表：
 
-GET / ticket？fields = id，subject，customer\_name，updated\_at＆state = open＆sort = \-updated\_at
+GET `/tickets?fields=id,subject,customer_name,updated_at&state=open&sort=-updated_at`
 
 ## 更新和创建应返回资源表示
 
 PUT，POST或PATCH调用可以对基础资源的字段进行修改，这些字段不是所提供参数的一部分（例如：created\_at或updated\_at timestamps）。为了防止API使用者必须再次访问API以获得更新的表示，请让API返回更新（或创建）的表示作为响应的一部分。
 
-如果POST导致创建，请使用 [HTTP 201状态代码](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.5) 并包含 指向新资源的URL的 [Location标头](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30)。
+如果POST导致创建，请使用 [HTTP 201状态代码](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.5) 并包含指向新资源的URL的 [Location标头](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30)。
 
 ## 你应该HATEOAS吗？
 
@@ -158,11 +158,11 @@ PUT，POST或PATCH调用可以对基础资源的字段进行修改，这些字�
 
 此外，鉴于此帖子提倡URL中的版本号，从长远来看，API消费者存储资源标识符而不是URL更有意义。毕竟，标识符在不同版本中是稳定的，但代表它的URL不是！
 
-## JSON只响应
+## 只响应JSON
 
-是时候将XML留在API中了。它冗长，难以解析，难以阅读，其数据模型与大多数编程语言建模数据的方式不兼容，当您的输出表示的主要需求是从内部表示序列化时，其可扩展性优势无关紧要。
+是时候将XML抛弃在API中了。它冗长，难以解析，难以阅读，其数据模型与大多数编程语言建模数据的方式不兼容，当您的输出表示的主要需求是从内部表示序列化时，其可扩展性优势无关紧要。
 
-我不会花费太多精力来解释上述情况，因为看起来其他人（ [YouTube](http://apiblog.youtube.com/2012/12/the-simpler-yet-more-powerful-new.html) ，[Twitter](https://dev.twitter.com/docs/api/1.1/overview#JSON_support_only) 和 [Box](http://developers.blog.box.com/2012/12/14/v2_api/) ）已经开始了XML的外流。
+我不会花费太多精力来解释上述情况，因为看起来其他人（ [YouTube](http://apiblog.youtube.com/2012/12/the-simpler-yet-more-powerful-new.html) ，[Twitter](https://dev.twitter.com/docs/api/1.1/overview#JSON_support_only) 和 [Box](http://developers.blog.box.com/2012/12/14/v2_api/) ）已经开始放弃了XML。
 
 我将给您留下以下Google趋势图表（ [XML API与JSON API](http://www.google.com/trends/explore?q=xml+api#q=xml%20api%2C%20json%20api&cmpt=q) ）作为思考的食物：
 
@@ -182,7 +182,7 @@ PUT，POST或PATCH调用可以对基础资源的字段进行修改，这些字�
 
 ## 默认打印漂亮并确保支持gzip
 
-从浏览器中查看，提供空白空间压缩输出的API并不是很有趣。虽然 可以提供 某种查询参数（例如 ？pretty = true ）来启用漂亮打印，但默认情况下相当打印的API更加平易近人。额外数据传输的成本可以忽略不计，特别是当您与不实现gzip的成本进行比较时。
+从浏览器中查看，提供空白空间压缩输出的API并不是很有趣。虽然可以提供某种查询参数（例如 `?pretty=true` ）来启用漂亮打印，但默认情况下相当打印的API更加平易近人。额外数据传输的成本可以忽略不计，特别是当您与不实现gzip的成本进行比较时。
 
 考虑一些用例：如果API使用者正在调试并且他们的代码打印出从API接收的数据该怎么办 \- 默认情况下它是可读的。或者，如果消费者抓住他们的代码生成的URL并直接从浏览器点击它 \- 默认情况下它是可读的。这些都是小事。使API变得愉快的小东西！
 
@@ -208,11 +208,11 @@ $ gzip -c without-whitespace.txt > without-whitespace.txt.gz
 
 在这个例子中，当gzip不在播放时，空格将输出大小增加了8.5％，当gzip处于播放状态时，输出大小增加了2.6％。另一方面，**gzipping本身** 的行为**提供了超过60％的带宽节省**。由于漂亮打印的成本相对较小，因此最好默认打印，并确保支持gzip压缩！
 
-为了进一步说明这一点，Twitter发现 在其 [Streaming API](https://dev.twitter.com/docs/streaming-apis) 上启用gzip压缩时 [节省](https://dev.twitter.com/blog/announcing-gzip-compression-streaming-apis) 了 [80％（在某些情况下）](https://dev.twitter.com/blog/announcing-gzip-compression-streaming-apis)。Stack Exchange甚至 [永远不会返回未压缩的响应](https://api.stackexchange.com/docs/compression) ！[](https://dev.twitter.com/docs/streaming-apis)[](https://api.stackexchange.com/docs/compression)
+为了进一步说明这一点，Twitter发现在其 [Streaming API](https://dev.twitter.com/docs/streaming-apis) 上启用gzip压缩时[节省](https://dev.twitter.com/blog/announcing-gzip-compression-streaming-apis) 了 [80％（在某些情况下）](https://dev.twitter.com/blog/announcing-gzip-compression-streaming-apis)。Stack Exchange甚至 [永远不会返回未压缩的响应](https://api.stackexchange.com/docs/compression) ！[](https://dev.twitter.com/docs/streaming-apis)[](https://api.stackexchange.com/docs/compression)
 
-## 默认情况下不要使用信封，但在需要时可以使用
+## 默认情况下不要使用封装，但在需要时可以使用
 
-许多API将其响应包装在信封中，如下所示：
+许多API将其响应包装在封装中，如下所示：
 
 ```json
 
@@ -227,13 +227,13 @@ $ gzip -c without-whitespace.txt > without-whitespace.txt.gz
 
 这样做有几个理由 \- 它可以很容易地包含额外的元数据或分页信息，一些REST客户端不允许轻松访问HTTP标头，[JSONP](http://en.wikipedia.org/wiki/JSONP) 请求无法访问HTTP标头。但是，随着 [CORS](http://www.w3.org/TR/cors/) 和 [RFC 5988](http://tools.ietf.org/html/rfc5988#page-6) 的 [链接头](http://tools.ietf.org/html/rfc5988#page-6) 快速采用的标准，[封装](http://tools.ietf.org/html/rfc5988#page-6) 开始变得不必要了。
 
-我们可以通过默认保留信封并仅在特殊情况下包络来证明API。
+我们可以通过默认保留封装并仅在特殊情况下包络来证明API。
 
-**如何在特殊情况下使用信封？**
+**如何在特殊情况下使用封装？**
 
-有两种情况需要信封 \- 如果API需要通过JSONP支持跨域请求，或者客户端无法使用HTTP标头。
+有两种情况需要封装 \- 如果API需要通过JSONP支持跨域请求，或者客户端无法使用HTTP标头。
 
-JSONP请求带有一个额外的查询参数（通常名为 callback 或 jsonp ），表示回调函数的名称。如果存在此参数，则API应切换到完整信封模式，它始终以200 HTTP状态代码响应并传递JSON有效内容中的实际状态代码。与响应一起传递的任何其他HTTP标头应映射到JSON字段，如下所示：
+JSONP请求带有一个额外的查询参数（通常名为 callback 或 jsonp ），表示回调函数的名称。如果存在此参数，则API应切换到完整封装模式，它始终以200 HTTP状态代码响应并传递JSON有效内容中的实际状态代码。与响应一起传递的任何其他HTTP标头应映射到JSON字段，如下所示：
 
 ```javascript
 
@@ -259,11 +259,11 @@ callback_function({
 
 如果API很简单，URL编码就足够了。但是，复杂的API应该坚持使用JSON来获取API输入。无论哪种方式，选择一个并在整个API中保持一致。
 
-接受JSON编码的POST，PUT和PATCH请求的API还应该要求将 Content\-Type 标头设置为 application / json 或抛出415 Unsupported Media Type HTTP状态代码。
+接受JSON编码的POST，PUT和PATCH请求的API还应该要求将 `Content-Type` 标头设置为 application/json 或抛出415 Unsupported Media Type HTTP状态代码。
 
 ## 分页
 
-爱好信封的API通常包括信封本身的分页数据。而且我不怪他们 \- 直到最近，没有更多更好的选择。今天包含分页细节的正确方法是使用 [RFC 5988引入](http://tools.ietf.org/html/rfc5988#page-6) 的 [链接头](http://tools.ietf.org/html/rfc5988#page-6)。
+爱好封装的API通常包括封装本身的分页数据。而且我不怪他们 \- 直到最近，没有更多更好的选择。今天包含分页细节的正确方法是使用 [RFC 5988引入](http://tools.ietf.org/html/rfc5988#page-6) 的 [链接头](http://tools.ietf.org/html/rfc5988#page-6)。
 
 使用Link头的API可以返回一组现成的链接，因此API使用者不必自己构建链接。当分页 [基于游标](https://developers.facebook.com/docs/reference/api/pagination/) 时，这尤其重要。这是一个正确使用的链接头的示例，从 [GitHub](http://developer.github.com/v3/#pagination) 的文档中获取：
 
@@ -279,11 +279,11 @@ Link: <https://api.github.com/user/repos?page=3&per_page=100>; rel="next", <http
 
 在许多情况下，API使用者需要从所请求的资源加载与（或引用）相关的数据。不要求消费者针对该信息重复地访问API，而是允许相关数据与原始资源一起按需返回和加载，从而显着提高效率。
 
-但是，由于这 [违反了一些RESTful原则](http://idbentley.com/blog/2013/03/14/should-restful-apis-include-relationships/) ，我们可以通过仅基于 嵌入 （或 扩展 ）查询参数 来最小化我们的偏差。
+但是，由于这 [违反了一些RESTful原则](http://idbentley.com/blog/2013/03/14/should-restful-apis-include-relationships/) ，我们可以通过仅基于嵌入（或扩展）查询参数 来最小化我们的偏差。
 
 在这种情况下，embed 将是一个逗号分隔的要嵌入的字段列表。点符号可用于指代子字段。例如：
 
-GET /tickets/12?embed=customer.name,assigned\_user
+GET `/tickets/12?embed=customer.name,assigned_user`
 
 这将返回包含嵌入其他详细信息的票证，例如：
 
@@ -308,7 +308,7 @@ GET /tickets/12?embed=customer.name,assigned\_user
 
 ## 覆盖HTTP方法
 
-某些HTTP客户端只能使用简单的GET和POST请求。为了提高对这些有限客户端的可访问性，API需要一种覆盖HTTP方法的方法。虽然这里没有任何硬标准，但流行的约定是接受一个请求头 X\-HTTP\-Method\-Override ，其字符串值包含PUT，PATCH或DELETE之一。
+某些HTTP客户端只能使用简单的GET和POST请求。为了提高对这些有限客户端的可访问性，API需要一种覆盖HTTP方法的方法。虽然这里没有任何硬标准，但流行的约定是接受一个请求头 `X-HTTP-Method-Override` ，其字符串值包含PUT，PATCH或DELETE之一。
 
 请注意，**只** 应在POST请求中接受 覆盖标头。GET请求永远不应该 [更改服务器上的数据](http://programmers.stackexchange.com/questions/188860/why-shouldnt-a-get-request-change-data-on-the-server) ！
 
@@ -320,9 +320,9 @@ GET /tickets/12?embed=customer.name,assigned\_user
 
 至少包括以下标题（使用Twitter的 [命名约定，](https://dev.twitter.com/docs/rate-limiting/1.1) 因为标题通常没有中间词大小写）：
 
-* X\-Rate\-Limit\-Limit \- 当前期间允许的请求数
-* X\-Rate\-Limit\-Remaining \- 当前时间段内剩余请求的数量
-* X\-Rate\-Limit\-Reset \- 当前时间段内剩余的秒数
+* `X-Rate-Limit-Limit` \- 当前期间允许的请求数
+* `X-Rate-Limit-Remaining` \- 当前时间段内剩余请求的数量
+* `X-Rate-Limit-Reset` \- 当前时间段内剩余的秒数
 
 **为什么还剩下秒数而不是X\-Rate\-Limit\-Reset的时间戳？**
 
