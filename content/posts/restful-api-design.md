@@ -22,7 +22,7 @@ title: 设计实用RESTful API的最佳实践
 * [尽可能使用JSON，只有在必要时才使用XML](#json-responses)
 * [你应该使用带有JSON的camelCase，但是snake\_case更容易阅读20％](#snake-vs-camel)
 * [默认打印漂亮并确保支持gzip](#pretty-print-gzip)
-* [默认情况下不要使用响应信封](#envelope)
+* [默认情况下不要使用响应封装](#envelope)
 * [考虑将JSON用于POST，PUT和PATCH请求主体](#json-requests)
 * [使用链接标头进行分页](#pagination)
 * [提供自动加载相关资源表示的方法](#autoloading)
@@ -33,7 +33,7 @@ title: 设计实用RESTful API的最佳实践
 * [定义消耗品错误有效负载](#errors)
 * [有效使用HTTP状态代码](#http-status)
 
-## API的关键要求
+## API的关键要求{#requirements}
 
 网上发现的许多API设计观点都是围绕模糊标准的主观解释而不是在现实世界中有意义的学术讨论。我在这篇文章中的目标是描述为当今的Web应用程序设计的实用API的最佳实践。如果感觉不对，我不会尝试满足标准。为了帮助指导决策制定过程，我已经写下了API必须要求的一些要求：
 
