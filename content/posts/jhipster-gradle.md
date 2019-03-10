@@ -37,7 +37,7 @@ plugins {
     id "org.sonarqube" version "2.6.2"
     // 为什么这个地方会用apt的eclipse插件，可能为了方便把项目导入到eclipse，那么apt是什么东西呢
     id "net.ltgt.apt-eclipse" version "0.19"
-    // apt 插件 idea版本的
+    // apt 插件 idea版本的 AnnotationProcessingTool
     id "net.ltgt.apt-idea" version "0.19"
     // apt 插件
     id "net.ltgt.apt" version "0.19"
@@ -54,6 +54,7 @@ plugins {
 
 // 应用插件
 apply plugin: 'java'
+// Apt 处理注解，在运行时生成java代码，比如lombok，和mapstruct这个几个技术
 apply plugin: 'net.ltgt.apt'
 // 设定源码版本
 sourceCompatibility=1.8
@@ -69,6 +70,7 @@ apply plugin: 'org.springframework.boot'
 // web项目，所以要应用war插件，来生成war包
 apply plugin: 'war'
 // 忘了这个是干嘛的
+// 为Gradle 提供附加optional和provided依赖配置以及生成Maven POM支持。
 apply plugin: 'propdeps'
 // node插件
 apply plugin: 'com.moowork.node'
@@ -85,28 +87,36 @@ dependencyManagement {
   }
 }
 
+// 默认任务
 defaultTasks 'bootRun'
-
+// 声明项目的group 名称，该值同maven中的groupid一样
 group = 'org.ylf.demo'
+// 声明项目的版本号，方便项目管理
 version = '0.0.1-SNAPSHOT'
-
+// 项目描述
 description = ''
-
+// Spring Boot如果生成war可执行包时，需要一个可执行的主类
 bootWar {
    mainClassName = 'org.ylf.demo.DemoApp'
 }
-
+// war包任务，配置
 war {
+    // 设置webapp的目录文件
     webAppDirName = 'build/www/'
+    // 是否启用，默认应该是没启用
     enabled = true
+    // 指定war包的后缀格式
     classifier = 'original'
 }
-
+// SpringBoot 任务
 springBoot {
+    // 指定主类方法
     mainClassName = 'org.ylf.demo.DemoApp'
+    //构建信息
     buildInfo()
 }
 
+// 处理操作系统版本，在window下处理空格，如果不把空格转换为UTF-8字符的话，Java运行时会报错
 if (OperatingSystem.current().isWindows()) {
     // https://stackoverflow.com/questions/40037487/the-filename-or-extension-is-too-long-error-using-gradle
     task classpathJar(type: Jar) {
@@ -129,8 +139,9 @@ if (OperatingSystem.current().isWindows()) {
         }
     }
 }
-
+// 测试任务
 test {
+    // 排除行为测试
     exclude '**/CucumberTest*'
 
     // uncomment if the tests reports are not generated
@@ -138,10 +149,13 @@ test {
     // ignoreFailures true
     reports.html.enabled = false
 }
-
+//行为测试
 task cucumberTest(type: Test) {
+    // 行为测试描述
     description = "Execute cucumber BDD tests."
+    // 校验
     group = "verification"
+    //包含那些的
     include '**/CucumberTest*'
 
     // uncomment if the tests reports are not generated
@@ -149,68 +163,103 @@ task cucumberTest(type: Test) {
     // ignoreFailures true
     reports.html.enabled = false
 }
-
+// 检查需要依赖 行为测试
 check.dependsOn cucumberTest
+// 测试报告
 task testReport(type: TestReport) {
+    // 指定测试报告路径
     destinationDir = file("$buildDir/reports/tests")
     reportOn test
 }
 
+// 行为测试报告
 task cucumberTestReport(type: TestReport) {
+    // 指定行为测试报告路径
     destinationDir = file("$buildDir/reports/tests")
     reportOn cucumberTest
 }
 
+// 引用docker的gradle配置
 apply from: 'gradle/docker.gradle'
+//  引用质量分析的的gradle配置
 apply from: 'gradle/sonar.gradle'
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
+
+// 通过判断系统属性来设置引用
 if (project.hasProperty('prod')) {
     apply from: 'gradle/profile_prod.gradle'
 } else {
     apply from: 'gradle/profile_dev.gradle'
 }
 
-
+// liquibase的配置，如果没有指定具体用那个就默认用main的配置
 if (!project.hasProperty('runList')) {
     project.ext.runList = 'main'
 }
-
+// liquibase生成changelog文件的目录及生成文件的命名格式
 project.ext.diffChangelogFile = 'src/main/resources/config/liquibase/changelog/' + new Date().format('yyyyMMddHHmmss') + '_changelog.xml'
-
+// liquibase任务的配置
 liquibase {
+    //激活
     activities {
+        // main 配置
         main {
+            // 驱动类
             driver 'org.h2.Driver'
+            // jdbc配置
             url 'jdbc:h2:file:./target/h2db/db/demo'
+            // 用户名
             username 'demo'
+            // 密码
             password ''
+            // changelog文件
             changeLogFile 'src/main/resources/config/liquibase/master.xml'
+            // 默认的schema
             defaultSchemaName ''
+            // 日志级别为debug
             logLevel 'debug'
+            //  类路径
             classpath 'src/main/resources/'
         }
+        // 日志差异
         diffLog {
+            // jdbc驱动类
             driver 'org.h2.Driver'
+            // jdbc url
             url 'jdbc:h2:file:./target/h2db/db/demo'
+            // 数据库用户名
             username 'demo'
+            // 数据库密码
             password ''
+            // 生成差异日志的文件
             changeLogFile project.ext.diffChangelogFile
-            referenceUrl 'hibernate:spring:org.ylf.demo.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy'
+            // 引用url
+            referenceUrl 'hibernate:spring:org.ylf.demo.domain?dialect=org.hibernate.dialect.H2Dialect&amp;
+            // hibernate 物理命名策略
+            hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;
+            // hibernate 隐式命名策略
+            hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy'
             defaultSchemaName ''
+            // 日志级别
             logLevel 'debug'
+            // 类路径
             classpath "$buildDir/classes/java/main"
         }
     }
-
+    // 运行List
     runList = project.ext.runList
 }
 
+// 配置
 configurations {
+    // 由运行环境提供
     providedRuntime
+    // 排除tomcat
     compile.exclude module: "spring-boot-starter-tomcat"
 }
 
+// 仓库
 repositories {
     mavenLocal()
     mavenCentral()
@@ -316,17 +365,22 @@ dependencies {
 
 }
 
+// 清理资源
 task cleanResources(type: Delete) {
+    // 删除清理资源
     delete 'build/resources'
 }
 
+// 设置 gradle 的版本
 wrapper {
     gradleVersion = '4.10.2'
 }
 
+// stage任务依赖bootWar
 task stage(dependsOn: 'bootWar') {
 }
 
+// 如果由nodeInstall属性的话，就设置node的属性
 if (project.hasProperty('nodeInstall')) {
     node {
         version = "${node_version}"
@@ -342,3 +396,5 @@ processResources.dependsOn cleanResources,bootBuildInfo
 bootBuildInfo.mustRunAfter cleanResources
 
 ```
+
+这个配置文件，主要配置了Node和SpringBoot相关的配置，还有liquibase的配置，以及gradle的wrapper的版本信息，以及单元测试和行为测试的相关配置，中间还根据情况引用了docker的配置和sonar的配置。这个例子做的相当全面，是一个全面的教材之一。本篇博客的介绍内容就到这里，具体的信息就看配置文件中的注释
