@@ -234,12 +234,8 @@ liquibase {
             password ''
             // 生成差异日志的文件
             changeLogFile project.ext.diffChangelogFile
-            // 引用url
-            referenceUrl 'hibernate:spring:org.ylf.demo.domain?dialect=org.hibernate.dialect.H2Dialect&amp;
-            // hibernate 物理命名策略
-            hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;
-            // hibernate 隐式命名策略
-            hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy'
+            // 引用url            // hibernate 物理命名策略   表名，字段为小写，当有大写字母的时候会转换为分隔符号“_”。         // hibernate 隐式命名策略
+            referenceUrl 'hibernate:spring:org.ylf.demo.domain?dialect=org.hibernate.dialect.H2Dialect&amp; hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp; hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy'
             defaultSchemaName ''
             // 日志级别
             logLevel 'debug'
