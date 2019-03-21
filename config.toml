@@ -10,9 +10,9 @@ disqusShortname = "https://https-yinlongfei-com.disqus.com"
 [[Params.bigimg]]
   src = "img/great-wall-01.jpg"
   desc = "长城"
-#[[Params.bigimg]]
-#  src = "img/sphere.jpg"
-#  desc = "Sphere"
+[[Params.bigimg]]
+ src = "img/sphere.jpg"
+ desc = "Sphere"
 #  # position: see values of CSS background-position.
 #  position = "center top"
 [[Params.bigimg]]
