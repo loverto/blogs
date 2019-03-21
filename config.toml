@@ -4,6 +4,21 @@ title = "殷龙飞的博客"
 theme = "beautifulhugo"
 
 googleAnalytics = "UA-125320928-1"
+disqusShortname = "https://https-yinlongfei-com.disqus.com"
+
+
+[[Params.bigimg]]
+  src = "img/1.jpg"
+  desc = "春"
+#[[Params.bigimg]]
+#  src = "img/sphere.jpg"
+#  desc = "Sphere"
+#  # position: see values of CSS background-position.
+#  position = "center top"
+#[[Params.bigimg]]
+#  src = "img/hexagon.jpg"
+#  desc = "Hexagon"
+
 
 [author]
     name = "殷龙飞"
