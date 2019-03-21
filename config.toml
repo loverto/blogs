@@ -8,16 +8,16 @@ disqusShortname = "https://https-yinlongfei-com.disqus.com"
 
 
 [[Params.bigimg]]
-  src = "img/1.jpg"
-  desc = "春"
+  src = "img/great-wall-01.jpg"
+  desc = "长城"
 #[[Params.bigimg]]
 #  src = "img/sphere.jpg"
 #  desc = "Sphere"
 #  # position: see values of CSS background-position.
 #  position = "center top"
-#[[Params.bigimg]]
-#  src = "img/hexagon.jpg"
-#  desc = "Hexagon"
+[[Params.bigimg]]
+ src = "img/path.jpg"
+ desc = "春"
 
 
 [author]
